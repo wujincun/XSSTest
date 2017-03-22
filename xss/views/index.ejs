@@ -41,7 +41,7 @@
 <body>
 <h1><%= title %></h1>
 <p>Welcome to <%= title %></p>
-    <textarea name="name" id="text" cols="10" rows="8">
+    <textarea name="name" id="txt" cols="10" rows="8">
       <p>sks<img src="null" alt="" onerror="alert(1)"/></p>
     </textarea>
 <button type="button" name="button" id="btn">评论</button>
@@ -49,7 +49,7 @@
 <script>
     var btn = document.getElementById('btn');
     var get = document.getElementById('get');
-    var text = document.getElementById('txt');
+    var txt = document.getElementById('txt');
     btn.addEventListener('click', function () {
         var xhr = new XMLHttpRequest();
         var url = '/comment?comment=' + txt.value;
@@ -72,7 +72,10 @@
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4) {
                 if (xhr.status == 200) {
-                    parse
+                    var com = parse(JSON.parse(xhr.response).comment)
+                    var txt = document.createElement('span');
+                    txt.innerHTML=com;
+                    document.body.appendChild(txt)
                 } else {
                     console.log('error')
                 }
