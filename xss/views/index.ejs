@@ -11,10 +11,13 @@
             try {
                 HTMLParse(he.unescape(str, {strict: true}), {//unescape反转义 he是encode的对象,最后HTMLParse来domparse
                     start: function (tag, attrs, unary) {
+                        //过滤 标签
+                        if (tag == "script" || tag == "style" || tag == "img" || tag == "link" || tag == "iframe" || tag == "frame") return;
                         results += '<' + tag;
-                        for (var i = 0, len = attrs.length; i < len; i++) {
-                            results += "" + attrs[i].name + '="' + attrs[i].escaped + '"'
-                        }
+                        //过滤拦截 属性
+                        /*for (var i = 0, len = attrs.length; i < len; i++) {
+                         results += "" + attrs[i].name + '="' + attrs[i].escaped + '"'
+                         }*/
                         results += (unary ? '/' : '') + '>'
                     },
                     end: function (tag) {
@@ -74,7 +77,7 @@
                 if (xhr.status == 200) {
                     var com = parse(JSON.parse(xhr.response).comment)
                     var txt = document.createElement('span');
-                    txt.innerHTML=com;
+                    txt.innerHTML = com;
                     document.body.appendChild(txt)
                 } else {
                     console.log('error')
